@@ -9,4 +9,5 @@ export default defineConfig({
     host: true, // 0.0.0.0
     port: 3920 // 指定启动端口
   },
+  base:"./"
 });
