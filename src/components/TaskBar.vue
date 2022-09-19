@@ -16,9 +16,11 @@ import {ref} from 'vue'
         <div class="taskbar-timer">
           {{ timeConvert(localDuration) }}
         </div>
-        <div class="taskbar-toggle">
+        <div class="taskbar-toggle"
+             v-if="!(isCompletedTask===1)">
           <el-switch
               v-model=taskGoing
+
               @change="going"
               class="ml-2"
               size="large"
@@ -44,30 +46,33 @@ export default {
   props: {
     taskId: Number,
     taskName: String,
-    startTime: Date,
+    startTime: String,
     startDate: String,
     duration: Number,
-    isFinishedTask:false,
-    isGoingTask:false,
+    isCompletedTask:Number,
+    isGoingTask:Number,
   },
   data(this: any) {
     return {
       localDuration: this.duration,
-      taskGoing:this.isGoing,
+      taskGoing:this.isGoingTask,
     }
+  },
+  mounted(this:any) {
+    this.check()
   },
   methods: {
     check(this:any){
-      console.log(this.isFinished)
-    },
-    going(this: any) {
-      if(this.taskGoing){
-        window.ipc.invoke("updateTaskInfo",this.taskId,this.localDuration,true)
+      if(this.isGoingTask){
+        this.taskGoing=true
       }
+    },
+    ///TODO:Fix the timer in another way
+    going(this: any) {
       let t = setInterval(() => {
         if(this.taskGoing) {
-
-          console.log(++this.localDuration)
+          ++this.localDuration
+          window.ipc.invoke("updateTaskInfo",this.taskId,this.localDuration,true)
         }
         else{
           window.ipc.invoke("updateTaskInfo",this.taskId,this.localDuration,false)

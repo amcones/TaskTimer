@@ -38,8 +38,8 @@ setInterval(gettime, 500)
                    :task-name="task.taskName.toString()"
                    :start-time="task.startTime"
                    :duration="task.duration"
-                   :is-finished="task.isCompleted"
-                   :is-going="task.isGoing"
+                   :is-completed-task="task.isCompleted"
+                   :is-going-task="task.isGoing"
           ></TaskBar>
         </el-scrollbar>
       </div>

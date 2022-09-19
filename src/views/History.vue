@@ -17,7 +17,7 @@ const count = 0
                    :task-name="task.taskName.toString()"
                    :start-time="task.startTime"
                    :duration="task.duration"
-                   :is-finished="task.isFinished"
+                   :is-completed-task="task.isCompleted"
           ></TaskBar>
         </el-scrollbar>
       </div>
