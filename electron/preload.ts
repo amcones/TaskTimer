@@ -13,3 +13,10 @@ contextBridge.exposeInMainWorld("ipc", {
     on: (channel: string, listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void) => {ipcRenderer.on(channel, listener);
     },
 });
+
+contextBridge.exposeInMainWorld('electronAPI',{
+    getTasks:()=>{
+        //ipcRenderer.invoke('getTasks')
+        console.log("调用ipc")
+    }
+})

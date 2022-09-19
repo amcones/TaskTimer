@@ -16,3 +16,9 @@ electron_1.contextBridge.exposeInMainWorld("ipc", {
         electron_1.ipcRenderer.on(channel, listener);
     },
 });
+electron_1.contextBridge.exposeInMainWorld('electronAPI', {
+    getTasks: () => {
+        //ipcRenderer.invoke('getTasks')
+        console.log("调用ipc");
+    }
+});

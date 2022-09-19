@@ -3,9 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const electron_1 = require("electron");
 // 创建窗口方法
 const createWindow_1 = require("./utils/createWindow");
-const navbar_1 = require("./utils/navbar");
-(0, navbar_1.onNavbar)(); // 新增
+const dbOperator_1 = require("./utils/dbOperator");
+async function handleGetOnGoingTasks() {
+    return await (0, dbOperator_1.selectOnGoingTaskInfo)();
+}
+async function handleHistoryTasks() {
+    return await (0, dbOperator_1.selectHistoryTaskInfo)();
+}
 electron_1.app.on("ready", () => {
+    electron_1.ipcMain.handle('getOnGoingTasks', handleGetOnGoingTasks);
+    electron_1.ipcMain.handle('getHistoryTasks', handleHistoryTasks);
+    electron_1.ipcMain.handle('updateTaskInfo', async (e, taskId, duration, isGoing) => {
+        return await (0, dbOperator_1.updateTaskInfo)(taskId, duration, isGoing);
+    });
     (0, createWindow_1.createWindow)(); // 创建窗口
     // 通常在 macOS 上，当点击 dock 中的应用程序图标时，如果没有其他打开的窗口，那么程序会重新创建一个窗口。
     electron_1.app.on("activate", () => electron_1.BrowserWindow.getAllWindows().length === 0 && (0, createWindow_1.createWindow)());

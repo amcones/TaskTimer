@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import TaskBar from "../components/TaskBar.vue";
 import {ref} from "vue";
-const WeekDay=ref("")
-const Month=ref("")
-const MonthDate=ref()
-const Hour=ref("")
-const Minute=ref("")
-const Second=ref("")
+const WeekDay = ref("")
+const Month = ref("")
+const MonthDate = ref()
+const Hour = ref("")
+const Minute = ref("")
+const Second = ref("")
+
 function gettime() {
   const d = new Date()
   const a = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -14,31 +15,32 @@ function gettime() {
   WeekDay.value = a[d.getDay()]
   Month.value = m[d.getMonth()]
   MonthDate.value = d.getDate()
-  Hour.value = d.getHours()<10?'0'+d.getHours().toString():d.getHours().toString()
-  Minute.value = d.getMinutes()<10?'0'+d.getMinutes().toString():d.getMinutes().toString()
-  Second.value = d.getSeconds()<10?'0'+d.getSeconds().toString():d.getSeconds().toString()
+  Hour.value = d.getHours() < 10 ? '0' + d.getHours().toString() : d.getHours().toString()
+  Minute.value = d.getMinutes() < 10 ? '0' + d.getMinutes().toString() : d.getMinutes().toString()
+  Second.value = d.getSeconds() < 10 ? '0' + d.getSeconds().toString() : d.getSeconds().toString()
 }
+
 gettime()
-setInterval(gettime,1000)
+setInterval(gettime, 500)
 </script>
 <template>
   <div id="content">
     <div id="main">
       <div id="header">
         <div id="title"><p>On going</p></div>
-        <div id="title-info"><p>{{ WeekDay }}, {{ Month }} {{ MonthDate }} {{Hour}}:{{Minute}}:{{Second}}</p></div>
+        <div id="title-info"><p>{{ WeekDay }}, {{ Month }} {{ MonthDate }} {{ Hour }}:{{ Minute }}:{{ Second }}</p>
+        </div>
       </div>
       <div id="main-container">
         <el-scrollbar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
+          <TaskBar v-for="task in tasks"
+                   :task-id="task.taskID"
+                   :task-name="task.taskName.toString()"
+                   :start-time="task.startTime"
+                   :duration="task.duration"
+                   :is-finished="task.isCompleted"
+                   :is-going="task.isGoing"
+          ></TaskBar>
         </el-scrollbar>
       </div>
       <div id="mainInput">
@@ -62,8 +64,22 @@ setInterval(gettime,1000)
 </template>
 
 <script lang="ts">
+import {ref} from "vue";
+const tasks = ref()
+
+function getTasks() {
+  let res = window.ipc.invoke("getOnGoingTasks")
+  res.then((val) => {
+    tasks.value = val.data
+    console.log(tasks.value)
+  })
+}
+
 export default {
-  name: "OnGoing"
+  name: "OnGoing",
+  mounted() {
+    getTasks()
+  }
 }
 </script>
 
@@ -77,6 +93,8 @@ p {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  padding: 20px 0;
+  box-sizing: border-box;
 }
 
 #main {
@@ -97,7 +115,6 @@ p {
 
 #title {
   font-size: 40px;
-  margin-bottom: 5px;
 }
 
 #title-info {
@@ -112,7 +129,7 @@ p {
 
 #mainInput {
   height: 80px;
-  margin: 15px 0;
+  margin: 15px 0 0 0;
 }
 
 #taskbar-container {

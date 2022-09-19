@@ -35,12 +35,12 @@ const NODE_ENV = process.env.NODE_ENV;
 function createWindow() {
     // 生成窗口实例
     const Window = new electron_1.BrowserWindow({
-        minWidth: 1120,
+        minWidth: 960,
         minHeight: 645,
-        width: 1120,
+        width: 960,
         height: 645,
         titleBarStyle: "hidden",
-        hasShadow: false,
+        hasShadow: true,
         show: false,
         resizable: false,
         webPreferences: {

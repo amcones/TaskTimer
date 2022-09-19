@@ -12,15 +12,13 @@ const count = 0
       </div>
       <div id="main-container">
         <el-scrollbar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
-          <TaskBar></TaskBar>
+          <TaskBar v-for="task in tasks"
+                   :task-id="task.taskID"
+                   :task-name="task.taskName.toString()"
+                   :start-time="task.startTime"
+                   :duration="task.duration"
+                   :is-finished="task.isFinished"
+          ></TaskBar>
         </el-scrollbar>
       </div>
     </div>
@@ -28,8 +26,22 @@ const count = 0
 </template>
 
 <script lang="ts">
+import {ref} from "vue";
+
 export default {
-  name: "History"
+  name: "History",
+  mounted() {
+    getTasks()
+  }
+}
+const tasks = ref()
+
+function getTasks() {
+  let res = window.ipc.invoke("getHistoryTasks")
+  res.then((val) => {
+    tasks.value = val.data
+    console.log(tasks.value)
+  })
 }
 </script>
 
@@ -43,6 +55,8 @@ p {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  padding: 20px 0;
+  box-sizing: border-box;
 }
 
 #main {
@@ -63,7 +77,6 @@ p {
 
 #title {
   font-size: 40px;
-  margin-bottom: 5px;
 }
 
 #title-info {
@@ -74,10 +87,5 @@ p {
 #main-container {
   flex-grow: 1;
   overflow: hidden;
-}
-
-#mainInput {
-  height: 80px;
-  margin: 15px 0;
 }
 </style>
