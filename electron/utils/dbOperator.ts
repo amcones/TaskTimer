@@ -21,7 +21,6 @@ export async function insertTaskInfo(taskName:string){
     }finally {
         await dbInfo.close()
     }
-    console.log(res.msg)
     return res
 }
 
@@ -74,6 +73,27 @@ export async function updateTaskInfo(taskId:any,duration:any,isGoing:any,isCompl
     let res=null
     try{
         const runRes=await dbInfo.all(sql)
+        res={
+            code:200,
+            data:runRes
+        }
+    }catch (e){
+        res={
+            code: 500,
+            msg:e
+        }
+    }finally {
+        await dbInfo.close()
+    }
+    return res
+}
+
+export async function deleteTask(taskID:number){
+    const dbInfo=await connectDb(userDbPath)
+    const sql=`DELETE FROM tasks WHERE taskID = ${taskID};`
+    let res=null
+    try{
+        const runRes=await dbInfo.run(sql)
         res={
             code:200,
             data:runRes

@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTaskInfo = exports.selectHistoryTaskInfo = exports.selectOnGoingTaskInfo = exports.insertTaskInfo = void 0;
+exports.deleteTask = exports.updateTaskInfo = exports.selectHistoryTaskInfo = exports.selectOnGoingTaskInfo = exports.insertTaskInfo = void 0;
 const path = __importStar(require("path"));
 const dbConnect_1 = require("./dbConnect");
 const userDbPath = path.join("./db", "tasks.sqlite");
@@ -47,7 +47,6 @@ async function insertTaskInfo(taskName) {
     finally {
         await dbInfo.close();
     }
-    console.log(res.msg);
     return res;
 }
 exports.insertTaskInfo = insertTaskInfo;
@@ -120,3 +119,26 @@ async function updateTaskInfo(taskId, duration, isGoing, isCompleted) {
     return res;
 }
 exports.updateTaskInfo = updateTaskInfo;
+async function deleteTask(taskID) {
+    const dbInfo = await (0, dbConnect_1.connectDb)(userDbPath);
+    const sql = `DELETE FROM tasks WHERE taskID = ${taskID};`;
+    let res = null;
+    try {
+        const runRes = await dbInfo.run(sql);
+        res = {
+            code: 200,
+            data: runRes
+        };
+    }
+    catch (e) {
+        res = {
+            code: 500,
+            msg: e
+        };
+    }
+    finally {
+        await dbInfo.close();
+    }
+    return res;
+}
+exports.deleteTask = deleteTask;

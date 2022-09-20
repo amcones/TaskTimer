@@ -69,6 +69,8 @@ setInterval(gettime, 500)
 
 <script lang="ts">
 import {ref} from "vue";
+import {ElScrollbar} from "element-plus";
+
 const tasks = ref()
 
 function getTasks() {
@@ -77,11 +79,12 @@ function getTasks() {
     tasks.value = val.data
   })
 }
-
+const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
 export default {
   name: "OnGoing",
   mounted(this:any) {
     getTasks()
+    this.scrollToBottom()
   },
   methods:{
     submitTask(this:any){
@@ -91,10 +94,13 @@ export default {
         window.ipc.invoke("insertTaskInfo", taskName)
       }
       if(document.getElementById("new-Task")){
-        document.getElementById("new-Task").value=""
+        document.getElementById("new-Task")!.value=""
       }
       location.reload()
     },
+    scrollToBottom(){
+      scrollbarRef.value!.setScrollTop(1200)
+    }
   },
   unmounted() {
     location.reload()

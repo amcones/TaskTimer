@@ -7,7 +7,16 @@ import {ref} from 'vue'
     <div id="taskbar-container">
       <div id="taskbar-layout">
         <div class="taskbar-button">
-          <el-button circle @click="completing"/>
+          <el-button circle
+                     @click="completing"
+                     v-if="!isCompletedTask"
+          />
+          <el-button circle
+                     @click="deleting"
+                     color="#ef535a"
+                     plain
+                     v-if="isCompletedTask"
+          />
         </div>
         <div class="taskbar-title">
           <div class="taskbar-title-main">{{ taskName }}</div>
@@ -17,10 +26,9 @@ import {ref} from 'vue'
           {{ timeConvert(localDuration) }}
         </div>
         <div class="taskbar-toggle"
-             v-if="!(isCompletedTask===1)">
+             v-if="!isCompletedTask">
           <el-switch
               v-model=taskGoing
-
               @change="going"
               class="ml-2"
               size="large"
@@ -86,6 +94,10 @@ export default {
           window.ipc.invoke("updateTaskInfo", this.taskId, this.localDuration, true,false)
         }, 1000)
       }
+    },
+    deleting(this:any){
+      window.ipc.invoke("deleteTask", this.taskId)
+      location.reload()
     }
   }
 }

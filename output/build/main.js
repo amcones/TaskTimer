@@ -19,6 +19,9 @@ electron_1.app.on("ready", () => {
     electron_1.ipcMain.handle('insertTaskInfo', async (e, taskName) => {
         return await (0, dbOperator_1.insertTaskInfo)(taskName);
     });
+    electron_1.ipcMain.handle('deleteTask', async (e, taskID) => {
+        return await (0, dbOperator_1.deleteTask)(taskID);
+    });
     (0, createWindow_1.createWindow)(); // 创建窗口
     // 通常在 macOS 上，当点击 dock 中的应用程序图标时，如果没有其他打开的窗口，那么程序会重新创建一个窗口。
     electron_1.app.on("activate", () => electron_1.BrowserWindow.getAllWindows().length === 0 && (0, createWindow_1.createWindow)());
