@@ -34,11 +34,12 @@ import {ref} from 'vue'
 
 <script lang="ts">
 import {updateTaskInfo} from "../../electron/utils/dbOperator";
+
 function timeConvert(second: number) {
   let hour = Math.floor(second / 3600)
   let min = Math.floor(second % 3600 / 60)
   let sec = second % 60
-  return hour.toString() + ':' + min.toString() + ':' + sec.toString()
+  return (hour < 10 ? '0' + hour.toString() : hour.toString()) + ':' + (min < 10 ? '0' + min.toString() : min.toString()) + ':' + (sec < 10 ? '0' + sec.toString() : sec.toString())
 }
 
 export default {
@@ -49,36 +50,36 @@ export default {
     startTime: String,
     startDate: String,
     duration: Number,
-    isCompletedTask:Number,
-    isGoingTask:Number,
+    isCompletedTask: Number,
+    isGoingTask: Number,
   },
   data(this: any) {
     return {
       localDuration: this.duration,
-      taskGoing:this.isGoingTask,
+      taskGoing: this.isGoingTask,
+      lastInterval: 0
     }
   },
-  mounted(this:any) {
+  mounted(this: any) {
     this.check()
   },
   methods: {
-    check(this:any){
-      if(this.isGoingTask){
-        this.taskGoing=true
+    check(this: any) {
+      if (this.isGoingTask) {
+        this.taskGoing = true
       }
     },
-    ///TODO:Fix the timer in another way
     going(this: any) {
-      let t = setInterval(() => {
-        if(this.taskGoing) {
+      if (!this.taskGoing) {
+        clearInterval(this.lastInterval)
+        window.ipc.invoke("updateTaskInfo", this.taskId, this.localDuration, false)
+      }
+      else {
+        this.lastInterval = setInterval(() => {
           ++this.localDuration
-          window.ipc.invoke("updateTaskInfo",this.taskId,this.localDuration,true)
-        }
-        else{
-          window.ipc.invoke("updateTaskInfo",this.taskId,this.localDuration,false)
-          clearInterval(t)
-        }
-      }, 1000)
+          window.ipc.invoke("updateTaskInfo", this.taskId, this.localDuration, true)
+        }, 1000)
+      }
     }
   }
 }
