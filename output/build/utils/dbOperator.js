@@ -27,10 +27,9 @@ exports.updateTaskInfo = exports.selectHistoryTaskInfo = exports.selectOnGoingTa
 const path = __importStar(require("path"));
 const dbConnect_1 = require("./dbConnect");
 const userDbPath = path.join("./db", "tasks.sqlite");
-async function insertTaskInfo(data = {}) {
+async function insertTaskInfo(taskName) {
     const dbInfo = await (0, dbConnect_1.connectDb)(userDbPath);
-    let taskName = "aaa";
-    const sql = `insert into tasks (taskName) values (${taskName})`;
+    const sql = `insert into tasks (taskName) values ('${taskName}')`;
     let res = null;
     try {
         const runRes = await dbInfo.run(sql);
@@ -48,6 +47,7 @@ async function insertTaskInfo(data = {}) {
     finally {
         await dbInfo.close();
     }
+    console.log(res.msg);
     return res;
 }
 exports.insertTaskInfo = insertTaskInfo;
@@ -97,9 +97,9 @@ async function selectHistoryTaskInfo() {
     return res;
 }
 exports.selectHistoryTaskInfo = selectHistoryTaskInfo;
-async function updateTaskInfo(taskId, duration, isGoing) {
+async function updateTaskInfo(taskId, duration, isGoing, isCompleted) {
     const dbInfo = await (0, dbConnect_1.connectDb)(userDbPath);
-    const sql = `update tasks set duration=${duration},isGoing=${isGoing} where taskID=${taskId}`;
+    const sql = `update tasks set duration=${duration},isGoing=${isGoing},isCompleted=${isCompleted} where taskID=${taskId}`;
     let res = null;
     try {
         const runRes = await dbInfo.all(sql);

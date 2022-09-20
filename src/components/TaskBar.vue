@@ -7,7 +7,7 @@ import {ref} from 'vue'
     <div id="taskbar-container">
       <div id="taskbar-layout">
         <div class="taskbar-button">
-          <el-button circle @click="check"/>
+          <el-button circle @click="completing"/>
         </div>
         <div class="taskbar-title">
           <div class="taskbar-title-main">{{ taskName }}</div>
@@ -65,19 +65,25 @@ export default {
   },
   methods: {
     check(this: any) {
+      console.log(this.isGoingTask)
       if (this.isGoingTask) {
         this.taskGoing = true
       }
     },
+    completing(this:any){
+      window.ipc.invoke("updateTaskInfo", this.taskId, this.localDuration, false,true)
+      location.reload()
+    },
     going(this: any) {
       if (!this.taskGoing) {
         clearInterval(this.lastInterval)
-        window.ipc.invoke("updateTaskInfo", this.taskId, this.localDuration, false)
+        window.ipc.invoke("updateTaskInfo", this.taskId, this.localDuration, false,false)
       }
       else {
+        window.ipc.invoke("updateTaskInfo", this.taskId, this.localDuration, true,false)
         this.lastInterval = setInterval(() => {
           ++this.localDuration
-          window.ipc.invoke("updateTaskInfo", this.taskId, this.localDuration, true)
+          window.ipc.invoke("updateTaskInfo", this.taskId, this.localDuration, true,false)
         }, 1000)
       }
     }

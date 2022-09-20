@@ -32,7 +32,7 @@ setInterval(gettime, 500)
         </div>
       </div>
       <div id="main-container">
-        <el-scrollbar>
+        <el-scrollbar ref="scrollbarRef">
           <TaskBar v-for="task in tasks"
                    :task-id="task.taskID"
                    :task-name="task.taskName.toString()"
@@ -48,11 +48,15 @@ setInterval(gettime, 500)
           <div id="taskbar-container">
             <div id="taskbar-layout">
               <div class="taskbar-button">
-                <el-button circle/>
+                <el-button circle @click="submitTask"/>
               </div>
               <div class="taskbar-title">
                 <div class="taskbar-title-main">
-                  <input placeholder="New Task...">
+                  <input
+                      id="new-Task"
+                      placeholder="New Task..."
+                      @keydown.enter="submitTask"
+                  >
                 </div>
               </div>
             </div>
@@ -71,14 +75,29 @@ function getTasks() {
   let res = window.ipc.invoke("getOnGoingTasks")
   res.then((val) => {
     tasks.value = val.data
-    console.log(tasks.value)
   })
 }
 
 export default {
   name: "OnGoing",
-  mounted() {
+  mounted(this:any) {
     getTasks()
+  },
+  methods:{
+    submitTask(this:any){
+      let taskName=document.getElementById("new-Task")?.value
+      if(taskName!=null){
+        console.log(taskName)
+        window.ipc.invoke("insertTaskInfo", taskName)
+      }
+      if(document.getElementById("new-Task")){
+        document.getElementById("new-Task").value=""
+      }
+      location.reload()
+    },
+  },
+  unmounted() {
+    location.reload()
   }
 }
 </script>

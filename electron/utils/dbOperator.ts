@@ -3,10 +3,9 @@ import {connectDb} from "./dbConnect"
 
 const userDbPath=path.join("./db","tasks.sqlite")
 
-export async function insertTaskInfo(data={}){
+export async function insertTaskInfo(taskName:string){
     const dbInfo=await connectDb(userDbPath)
-    let taskName="aaa"
-    const sql=`insert into tasks (taskName) values (${taskName})`
+    const sql=`insert into tasks (taskName) values ('${taskName}')`
     let res=null
     try{
         const runRes=await dbInfo.run(sql)
@@ -22,6 +21,7 @@ export async function insertTaskInfo(data={}){
     }finally {
         await dbInfo.close()
     }
+    console.log(res.msg)
     return res
 }
 
@@ -67,10 +67,10 @@ export async function selectHistoryTaskInfo(){
     return res
 }
 
-export async function updateTaskInfo(taskId:any,duration:any,isGoing:any){
+export async function updateTaskInfo(taskId:any,duration:any,isGoing:any,isCompleted:any){
     const dbInfo=await connectDb(userDbPath)
 
-    const sql=`update tasks set duration=${duration},isGoing=${isGoing} where taskID=${taskId}`
+    const sql=`update tasks set duration=${duration},isGoing=${isGoing},isCompleted=${isCompleted} where taskID=${taskId}`
     let res=null
     try{
         const runRes=await dbInfo.all(sql)

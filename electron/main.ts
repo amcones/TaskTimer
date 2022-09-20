@@ -1,7 +1,7 @@
 import {app, BrowserWindow, ipcMain} from "electron";
 // 创建窗口方法
 import {createWindow} from "./utils/createWindow";
-import {selectHistoryTaskInfo, selectOnGoingTaskInfo,updateTaskInfo} from "./utils/dbOperator"
+import {insertTaskInfo, selectHistoryTaskInfo, selectOnGoingTaskInfo, updateTaskInfo} from "./utils/dbOperator"
 
 async function handleGetOnGoingTasks(){
     return await selectOnGoingTaskInfo()
@@ -13,8 +13,11 @@ async function handleHistoryTasks(){
 app.on("ready", () => {
     ipcMain.handle('getOnGoingTasks',handleGetOnGoingTasks)
     ipcMain.handle('getHistoryTasks',handleHistoryTasks)
-    ipcMain.handle('updateTaskInfo',async(e,taskId,duration,isGoing)=>{
-        return await updateTaskInfo(taskId,duration,isGoing)
+    ipcMain.handle('updateTaskInfo',async(e,taskId,duration,isGoing,isCompleted)=>{
+        return await updateTaskInfo(taskId,duration,isGoing,isCompleted)
+    })
+    ipcMain.handle('insertTaskInfo',async(e,taskName:string)=>{
+        return await insertTaskInfo(taskName)
     })
     createWindow(); // 创建窗口
     // 通常在 macOS 上，当点击 dock 中的应用程序图标时，如果没有其他打开的窗口，那么程序会重新创建一个窗口。

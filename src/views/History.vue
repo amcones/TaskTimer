@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import TaskBar from "../components/TaskBar.vue";
-import { ref } from 'vue'
+import {ref} from 'vue'
+
 const count = 0
 </script>
 <template>
@@ -8,7 +9,7 @@ const count = 0
     <div id="main">
       <div id="header">
         <div id="title"><p>Completed Tasks</p></div>
-        <div id="title-info"><p>Total {{count}} tasks.</p></div>
+        <div id="title-info"><p>Total {{ this.tasks.length }} tasks.</p></div>
       </div>
       <div id="main-container">
         <el-scrollbar>
@@ -18,6 +19,7 @@ const count = 0
                    :start-time="task.startTime"
                    :duration="task.duration"
                    :is-completed-task="task.isCompleted"
+
           ></TaskBar>
         </el-scrollbar>
       </div>
@@ -30,19 +32,25 @@ import {ref} from "vue";
 
 export default {
   name: "History",
-  mounted() {
-    getTasks()
+  mounted(this:any) {
+    this.getTasks()
+  },
+  data() {
+    return {
+      tasks: [],
+    }
+  },
+  methods: {
+    getTasks(this: any) {
+      let res = window.ipc.invoke("getHistoryTasks")
+      res.then((val) => {
+        this.tasks = val.data
+      })
+    }
   }
 }
-const tasks = ref()
 
-function getTasks() {
-  let res = window.ipc.invoke("getHistoryTasks")
-  res.then((val) => {
-    tasks.value = val.data
-    console.log(tasks.value)
-  })
-}
+
 </script>
 
 <style scoped>
