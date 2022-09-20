@@ -1,24 +1,21 @@
 <script lang="ts" setup>
 import TaskBar from "../components/TaskBar.vue";
-import {ref} from 'vue'
-
-const count = 0
 </script>
 <template>
   <div id="content">
     <div id="main">
       <div id="header">
         <div id="title"><p>Completed Tasks</p></div>
-        <div id="title-info"><p>Total {{ this.tasks.length }} tasks.</p></div>
+        <div id="title-info"><p>Total {{ tasks.length }} tasks.</p></div>
       </div>
       <div id="main-container">
         <el-scrollbar>
           <TaskBar v-for="task in tasks"
-                   :task-id="task.taskID"
-                   :task-name="task.taskName.toString()"
-                   :start-time="task.startTime"
-                   :duration="task.duration"
-                   :is-completed-task="task.isCompleted"
+                   :task-id="task[`taskID`]"
+                   :task-name="task[`taskName`]"
+                   :start-time="task[`startTime`]"
+                   :duration="task[`duration`]"
+                   :is-completed-task="task[`isCompleted`]"
 
           ></TaskBar>
         </el-scrollbar>
@@ -28,8 +25,6 @@ const count = 0
 </template>
 
 <script lang="ts">
-import {ref} from "vue";
-
 export default {
   name: "History",
   mounted(this:any) {

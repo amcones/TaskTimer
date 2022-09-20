@@ -1,27 +1,5 @@
 <script lang="ts" setup>
 import TaskBar from "../components/TaskBar.vue";
-import {ref} from "vue";
-const WeekDay = ref("")
-const Month = ref("")
-const MonthDate = ref()
-const Hour = ref("")
-const Minute = ref("")
-const Second = ref("")
-
-function gettime() {
-  const d = new Date()
-  const a = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-  const m = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-  WeekDay.value = a[d.getDay()]
-  Month.value = m[d.getMonth()]
-  MonthDate.value = d.getDate()
-  Hour.value = d.getHours() < 10 ? '0' + d.getHours().toString() : d.getHours().toString()
-  Minute.value = d.getMinutes() < 10 ? '0' + d.getMinutes().toString() : d.getMinutes().toString()
-  Second.value = d.getSeconds() < 10 ? '0' + d.getSeconds().toString() : d.getSeconds().toString()
-}
-
-gettime()
-setInterval(gettime, 500)
 </script>
 <template>
   <div id="content">
@@ -32,14 +10,14 @@ setInterval(gettime, 500)
         </div>
       </div>
       <div id="main-container">
-        <el-scrollbar ref="scrollbarRef">
+        <el-scrollbar>
           <TaskBar v-for="task in tasks"
-                   :task-id="task.taskID"
-                   :task-name="task.taskName.toString()"
-                   :start-time="task.startTime"
-                   :duration="task.duration"
-                   :is-completed-task="task.isCompleted"
-                   :is-going-task="task.isGoing"
+                   :task-id="task[`taskID`]"
+                   :task-name="task[`taskName`]"
+                   :start-time="task[`startTime`]"
+                   :duration="task[`duration`]"
+                   :is-completed-task="task[`isCompleted`]"
+                   :is-going-task="task[`isGoing`]"
           ></TaskBar>
         </el-scrollbar>
       </div>
@@ -69,7 +47,6 @@ setInterval(gettime, 500)
 
 <script lang="ts">
 import {ref} from "vue";
-import {ElScrollbar} from "element-plus";
 
 const tasks = ref()
 
@@ -79,27 +56,45 @@ function getTasks() {
     tasks.value = val.data
   })
 }
-const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
+
 export default {
   name: "OnGoing",
-  mounted(this:any) {
+  mounted(this: any) {
     getTasks()
-    this.scrollToBottom()
+    this.gettime()
+    setInterval(this.gettime, 500)
   },
-  methods:{
-    submitTask(this:any){
-      let taskName=document.getElementById("new-Task")?.value
-      if(taskName!=null){
+  data() {
+    return {
+      WeekDay: ref(""),
+      Month: ref(""),
+      MonthDate: ref(),
+      Hour: ref(""),
+      Minute: ref(""),
+      Second: ref(""),
+    }
+  },
+  methods: {
+    submitTask(this: any) {
+      let input:HTMLInputElement=document.getElementById("new-Task") as HTMLInputElement
+      let taskName=input.value
+      if (taskName != null) {
         console.log(taskName)
         window.ipc.invoke("insertTaskInfo", taskName)
       }
-      if(document.getElementById("new-Task")){
-        document.getElementById("new-Task")!.value=""
-      }
+      input.value=""
       location.reload()
     },
-    scrollToBottom(){
-      scrollbarRef.value!.setScrollTop(1200)
+    gettime(this:any) {
+      const d = new Date()
+      const a = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      const m = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      this.WeekDay = a[d.getDay()]
+      this.Month = m[d.getMonth()]
+      this.MonthDate = d.getDate()
+      this.Hour = d.getHours() < 10 ? '0' + d.getHours().toString() : d.getHours().toString()
+      this.Minute = d.getMinutes() < 10 ? '0' + d.getMinutes().toString() : d.getMinutes().toString()
+      this.Second = d.getSeconds() < 10 ? '0' + d.getSeconds().toString() : d.getSeconds().toString()
     }
   },
   unmounted() {
