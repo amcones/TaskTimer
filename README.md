@@ -103,7 +103,7 @@ There are a lot of task manager applications but lack a timer that records the t
 <!-- GETTING STARTED -->
 ## Getting Started
 
-You can download the dmg for arm macOS machines directly at the releases page, or clone this repository for developing.
+You can download the dmg for arm macOS machines directly at the releases page, or clone this repository for development.
 
 ### Prerequisites
 
