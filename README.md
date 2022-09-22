@@ -103,10 +103,7 @@ There are a lot of task manager applications but lack a timer that records the t
 <!-- GETTING STARTED -->
 ## Getting Started
 
-You can download the dmg for arm64 MacOS machines directly at the releases page, or clone this repository for developing.
-
-**THIS RELEASE VERSION USES ABSOLUTE PATH FOR DATABASE, WHICH WILL NOT WORK ON YOUR MACHINE!**
-
+You can download the dmg for arm macOS machines directly at the releases page, or clone this repository for developing.
 
 ### Prerequisites
 
@@ -121,19 +118,19 @@ You can download the dmg for arm64 MacOS machines directly at the releases page,
 
 ### Installation
 
-Below is the step to build the project.
+_Below is the step to build the project._
 
 1. Clone the repo
    ```sh
    git clone https://github.com/amcones/TaskTimer
    cd TaskTimer
    ```
-2. Install NPM packages
+2. Install yarn packages
    ```sh
    yarn
    ```
 3. add your own code
-4. modify the package.json file to build the project on your own platform
+4. modify the `package.json` to build the project on your own platform
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -180,7 +177,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

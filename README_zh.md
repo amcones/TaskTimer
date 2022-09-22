@@ -20,7 +20,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
@@ -28,7 +27,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="title.png" alt="Logo">
   </a>
 
 <h3 align="center">Best-README-Template-zh</h3>
@@ -82,16 +81,9 @@
 
 [![产品截图][product-screenshot]](https://example.com)
 
-GitHub 上有很多优秀的 README 模板，但我没找到一个适合我需求的，所以我创建了这个增强版。我想要创建一个 README 模板，它能优秀到成为你的最后一个 README 模板 —— 我认为这就是你所需要的。
+你听说过"二十小时定律"吗？
 
-以下是原因：
-* 你应该把时间用在项目的「刀刃」上，也就是专注于解决问题本身上
-* 你不应该一遍又一遍地做重复的工作，比如每次都从头编写一个 README
-* 你应该在未来的生活中始终遵循 DRY 原则 :smile:
-
-当然，没有一个模板可以满足所有项目，因为你的需求可能与众不同。所以我们会在未来添加更多内容。你也可以通过复刻（fork）本仓库并且创建一个拉取请求（pull request）或者创建议题（issue）来向我们提出建议。感谢所有帮助我们扩充本模板的贡献者！
-
-使用 `BLANK_README_zh.md` 来开始。
+这里有许多任务管理应用，但却没有几个记录单任务时间花费的。所以我构建了这个项目来帮助完成这件事。
 
 <p align="right">(<a href="#top">返回顶部</a>)</p>
 
@@ -99,16 +91,10 @@ GitHub 上有很多优秀的 README 模板，但我没找到一个适合我需�
 
 ### 构建工具
 
-你应该在这里列出项目使用的主要框架或库。附加组件和插件则应该放在致谢一节中。下面是一些例子。
-
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
+* [electron](https://www.electronjs.org/)
 * [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+* [Vite](https://vitejs.dev/)
+* [Sqlite](https://www.sqlite.org/index.html)
 
 <p align="right">(<a href="#top">返回顶部</a>)</p>
 
@@ -117,34 +103,34 @@ GitHub 上有很多优秀的 README 模板，但我没找到一个适合我需�
 <!-- 开始 -->
 ## 开始
 
-这是一份在本地构建项目的指导的例子。
-要获取本地副本并且配置运行，你可以按照下面的示例步骤操作。
+你可以在发布页直接下载为arm macOS构建的dmg，或者克隆这个仓库进行开发。
 
 ### 依赖
 
-这只是一个列出软件依赖和安装方法的例子。
 * npm
   ```sh
   npm install npm@latest -g
   ```
+  or yarn
+  ```shell
+  npm install yarn -g
+  ```
 
 ### 安装
 
-_下面是一个指导你的受众如何安装和配置你的应用的例子。这个模板不需要任何外部依赖或服务。_
+_下面是构建这个项目的步骤。_
 
-1. 在 [https://example.com](https://example.com) 获取一个免费的 API Key。
-2. 克隆本仓库
+1. 克隆本仓库
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/amcones/TaskTimer
+   cd TaskTimer
    ```
-3. 安装 NPM 包
+2. 安装 yarn 包
    ```sh
-   npm install
+   yarn
    ```
-4. 在 `config.js` 中填写你的 API
-   ```js
-   const API_KEY = '填写你的 API';
-   ```
+3. 添加你自己的代码
+4. 修改`package.json`来在你的平台上构建项目
 
 <p align="right">(<a href="#top">返回顶部</a>)</p>
 
@@ -153,9 +139,7 @@ _下面是一个指导你的受众如何安装和配置你的应用的例子。�
 <!-- 使用方法 示例 -->
 ## 使用方法
 
-在这里你可以展示项目的使用方法。把附加的截图、代码示例和演示放在这里也很不错。你也可以用链接引用其他资源。
-
-_转到 [文档](https://example.com) 查看更多示例_
+只要在进行页输入任务名，然后打开活动中任务的开关。做完这个任务后，点击按钮将它放入历史记录，或者在历史页使用按钮删除它。
 
 <p align="right">(<a href="#top">返回顶部</a>)</p>
 
@@ -164,15 +148,13 @@ _转到 [文档](https://example.com) 查看更多示例_
 <!-- 路线图 -->
 ## 路线图
 
-- [x] 添加更新日志
-- [x] 添加「返回顶部」链接
-- [ ] 添加额外的模板和示例
-- [ ] 添加「组件」文档，以便更容易复制和粘贴各个部分
+- [x] 开发基本功能
+- [ ] 改正错误
+- [ ] 添加多主题
+- [ ] 构建跨平台发布
 - [ ] 多语种支持
     - [x] 中文
-    - [ ] 西班牙语
-
-到 [open issues](https://github.com/othneildrew/Best-README-Template/issues) 页查看所有请求的功能 （以及已知的问题）。
+    - [ ] 日语
 
 <p align="right">(<a href="#top">返回顶部</a>)</p>
 
@@ -198,7 +180,7 @@ _转到 [文档](https://example.com) 查看更多示例_
 <!-- 许可证 -->
 ## 许可证
 
-根据 MIT 许可证分发。打开 [LICENSE.txt](LICENSE.txt) 查看更多内容。
+根据 MIT 许可证分发。打开 [LICENSE.txt](LICENSE) 查看更多内容。
 
 
 <p align="right">(<a href="#top">返回顶部</a>)</p>
@@ -208,9 +190,9 @@ _转到 [文档](https://example.com) 查看更多示例_
 <!-- 联系我们 -->
 ## 联系我们
 
-你的名字 - [@your_twitter](https://twitter.com/your_username) - email@example.com
+James Amcones - [@James Amcones](https://twitter.com/AmconesJ) - a587212@126.com
 
-项目链接: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+我的博客: [uli's blog](https://amcones.cn)
 
 <p align="right">(<a href="#top">返回顶部</a>)</p>
 
@@ -222,13 +204,7 @@ _转到 [文档](https://example.com) 查看更多示例_
 在这里列出你觉得有用的资源，并以此致谢。我已经添加了一些我喜欢的资源，以便你可以快速开始！
 
 * [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
 <p align="right">(<a href="#top">返回顶部</a>)</p>
 
@@ -236,16 +212,14 @@ _转到 [文档](https://example.com) 查看更多示例_
 
 <!-- MARKDOWN 链接 & 图片 -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/BreakingAwful/Best-README-Template-zh.svg?style=for-the-badge
-[contributors-url]: https://github.com/BreakingAwful/Best-README-Template-zh/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/BreakingAwful/Best-README-Template-zh.svg?style=for-the-badge
-[forks-url]: https://github.com/BreakingAwful/Best-README-Template-zh/network/members
-[stars-shield]: https://img.shields.io/github/stars/BreakingAwful/Best-README-Template-zh.svg?style=for-the-badge
-[stars-url]: https://github.com/BreakingAwful/Best-README-Template-zh/stargazers
-[issues-shield]: https://img.shields.io/github/issues/BreakingAwful/Best-README-Template-zh.svg?style=for-the-badge
-[issues-url]: https://github.com/BreakingAwful/Best-README-Template-zh/issues
-[license-shield]: https://img.shields.io/github/license/BreakingAwful/Best-README-Template-zh.svg?style=for-the-badge
-[license-url]: https://github.com/BreakingAwful/Best-README-Template-zh/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
+[contributors-shield]: https://img.shields.io/github/contributors/amcones/TaskTimer.svg?style=for-the-badge
+[contributors-url]: https://github.com/amcones/TaskTimer/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/amcones/TaskTimer.svg?style=for-the-badge
+[forks-url]: https://github.com/amcones/TaskTimer/network/members
+[stars-shield]: https://img.shields.io/github/stars/amcones/TaskTimer.svg?style=for-the-badge
+[stars-url]: https://github.com/amcones/TaskTimer/stargazers
+[issues-shield]: https://img.shields.io/github/issues/amcones/TaskTimer.svg?style=for-the-badge
+[issues-url]: https://github.com/amcones/TaskTimer/issues
+[license-shield]: https://img.shields.io/github/license/amcones/TaskTimer.svg?style=for-the-badge
+[license-url]: https://github.com/amcones/TaskTimer/blob/master/LICENSE.txt
+[product-screenshot]: title.png
