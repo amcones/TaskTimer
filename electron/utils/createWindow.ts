@@ -16,7 +16,6 @@ function createWindow() {
         titleBarStyle: "hidden",
         hasShadow: true, // * app 边框阴影
         show: false, // 启动窗口时隐藏,直到渲染进程加载完成「ready-to-show 监听事件」 再显示窗口,防止加载时闪烁
-        resizable: false, // 禁止手动修改窗口尺寸
         webPreferences: {
             // 加载脚本
             preload: path.join(__dirname, "..", "preload.js")
@@ -30,7 +29,14 @@ function createWindow() {
 
     // * 主窗口加载外部链接
     // 开发环境,加载vite启动的vue项目地址
-    if (NODE_ENV === "development") Window.loadURL("http://localhost:3920/");
+    if (NODE_ENV === "development") {
+        console.log("dev")
+        Window.loadURL("http://localhost:3920/");
+    }
+    else {
+        console.log("pro")
+        Window.loadURL(`file://${path.join(__dirname, '../dist/index.html')}`);
+    }
 }
 // 导出模块
 export { createWindow };

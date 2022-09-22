@@ -39,7 +39,7 @@ export default {
     getTasks(this: any) {
       let res = window.ipc.invoke("getHistoryTasks")
       res.then((val) => {
-        this.tasks = val.data
+        this.tasks = val.data?val.data:0
       })
     }
   }

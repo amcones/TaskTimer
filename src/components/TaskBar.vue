@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import {ref} from 'vue'
 
 </script>
 <template>
@@ -43,13 +42,6 @@ import {ref} from 'vue'
 <script lang="ts">
 import {updateTaskInfo} from "../../electron/utils/dbOperator";
 
-function timeConvert(second: number) {
-  let hour = Math.floor(second / 3600)
-  let min = Math.floor(second % 3600 / 60)
-  let sec = second % 60
-  return (hour < 10 ? '0' + hour.toString() : hour.toString()) + ':' + (min < 10 ? '0' + min.toString() : min.toString()) + ':' + (sec < 10 ? '0' + sec.toString() : sec.toString())
-}
-
 export default {
   name: "TaskBar",
   props: {
@@ -72,8 +64,13 @@ export default {
     this.check()
   },
   methods: {
+    timeConvert(second: number) {
+      let hour = Math.floor(second / 3600)
+      let min = Math.floor(second % 3600 / 60)
+      let sec = second % 60
+      return (hour < 10 ? '0' + hour.toString() : hour.toString()) + ':' + (min < 10 ? '0' + min.toString() : min.toString()) + ':' + (sec < 10 ? '0' + sec.toString() : sec.toString())
+    },
     check(this: any) {
-      console.log(this.isGoingTask)
       if (this.isGoingTask) {
         this.taskGoing = true
       }

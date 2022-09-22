@@ -42,7 +42,6 @@ function createWindow() {
         titleBarStyle: "hidden",
         hasShadow: true,
         show: false,
-        resizable: false,
         webPreferences: {
             // 加载脚本
             preload: path.join(__dirname, "..", "preload.js")
@@ -54,7 +53,13 @@ function createWindow() {
     });
     // * 主窗口加载外部链接
     // 开发环境,加载vite启动的vue项目地址
-    if (NODE_ENV === "development")
+    if (NODE_ENV === "development") {
+        console.log("dev");
         Window.loadURL("http://localhost:3920/");
+    }
+    else {
+        console.log("pro");
+        Window.loadURL(`file://${path.join(__dirname, '../dist/index.html')}`);
+    }
 }
 exports.createWindow = createWindow;

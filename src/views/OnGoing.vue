@@ -79,7 +79,6 @@ export default {
       let input:HTMLInputElement=document.getElementById("new-Task") as HTMLInputElement
       let taskName=input.value
       if (taskName != null) {
-        console.log(taskName)
         window.ipc.invoke("insertTaskInfo", taskName)
       }
       input.value=""

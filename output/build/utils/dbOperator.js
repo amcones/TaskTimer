@@ -1,34 +1,27 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTask = exports.updateTaskInfo = exports.selectHistoryTaskInfo = exports.selectOnGoingTaskInfo = exports.insertTaskInfo = void 0;
-const path = __importStar(require("path"));
 const dbConnect_1 = require("./dbConnect");
-const userDbPath = path.join("./db", "tasks.sqlite");
+const userDbPath = "/Users/jamesamcones/TaskTimer/db/tasks.sqlite";
 async function insertTaskInfo(taskName) {
     const dbInfo = await (0, dbConnect_1.connectDb)(userDbPath);
+    await dbInfo.run(`
+create table if not exists tasks 
+(
+    taskID      INTEGER        not null
+        constraint tasks_pk
+            primary key autoincrement,
+    taskName    varchar(65535) not null,
+    startTime   datetime default (datetime('now', 'localtime')) not null,
+    duration    time     default 0 not null,
+    isCompleted boolean  default false not null,
+    isGoing     boolean  default false
+);
+
+create unique index tasks_taskID_uindex
+    on tasks (taskID);
+
+`);
     const sql = `insert into tasks (taskName) values ('${taskName}')`;
     let res = null;
     try {
@@ -52,6 +45,23 @@ async function insertTaskInfo(taskName) {
 exports.insertTaskInfo = insertTaskInfo;
 async function selectOnGoingTaskInfo() {
     const dbInfo = await (0, dbConnect_1.connectDb)(userDbPath);
+    await dbInfo.run(`
+create table if not exists tasks 
+(
+    taskID      INTEGER        not null
+        constraint tasks_pk
+            primary key autoincrement,
+    taskName    varchar(65535) not null,
+    startTime   datetime default (datetime('now', 'localtime')) not null,
+    duration    time     default 0 not null,
+    isCompleted boolean  default false not null,
+    isGoing     boolean  default false
+);
+
+create unique index tasks_taskID_uindex
+    on tasks (taskID);
+
+`);
     const sql = `select * from tasks where isCompleted=0`;
     let res = null;
     try {
@@ -75,6 +85,23 @@ async function selectOnGoingTaskInfo() {
 exports.selectOnGoingTaskInfo = selectOnGoingTaskInfo;
 async function selectHistoryTaskInfo() {
     const dbInfo = await (0, dbConnect_1.connectDb)(userDbPath);
+    await dbInfo.run(`
+create table if not exists tasks 
+(
+    taskID      INTEGER        not null
+        constraint tasks_pk
+            primary key autoincrement,
+    taskName    varchar(65535) not null,
+    startTime   datetime default (datetime('now', 'localtime')) not null,
+    duration    time     default 0 not null,
+    isCompleted boolean  default false not null,
+    isGoing     boolean  default false
+);
+
+create unique index tasks_taskID_uindex
+    on tasks (taskID);
+
+`);
     const sql = `select * from tasks where isCompleted`;
     let res = null;
     try {
@@ -98,6 +125,23 @@ async function selectHistoryTaskInfo() {
 exports.selectHistoryTaskInfo = selectHistoryTaskInfo;
 async function updateTaskInfo(taskId, duration, isGoing, isCompleted) {
     const dbInfo = await (0, dbConnect_1.connectDb)(userDbPath);
+    await dbInfo.run(`
+create table if not exists tasks 
+(
+    taskID      INTEGER        not null
+        constraint tasks_pk
+            primary key autoincrement,
+    taskName    varchar(65535) not null,
+    startTime   datetime default (datetime('now', 'localtime')) not null,
+    duration    time     default 0 not null,
+    isCompleted boolean  default false not null,
+    isGoing     boolean  default false
+);
+
+create unique index tasks_taskID_uindex
+    on tasks (taskID);
+
+`);
     const sql = `update tasks set duration=${duration},isGoing=${isGoing},isCompleted=${isCompleted} where taskID=${taskId}`;
     let res = null;
     try {
@@ -121,6 +165,23 @@ async function updateTaskInfo(taskId, duration, isGoing, isCompleted) {
 exports.updateTaskInfo = updateTaskInfo;
 async function deleteTask(taskID) {
     const dbInfo = await (0, dbConnect_1.connectDb)(userDbPath);
+    await dbInfo.run(`
+create table if not exists tasks 
+(
+    taskID      INTEGER        not null
+        constraint tasks_pk
+            primary key autoincrement,
+    taskName    varchar(65535) not null,
+    startTime   datetime default (datetime('now', 'localtime')) not null,
+    duration    time     default 0 not null,
+    isCompleted boolean  default false not null,
+    isGoing     boolean  default false
+);
+
+create unique index tasks_taskID_uindex
+    on tasks (taskID);
+
+`);
     const sql = `DELETE FROM tasks WHERE taskID = ${taskID};`;
     let res = null;
     try {

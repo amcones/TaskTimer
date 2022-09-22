@@ -4,10 +4,12 @@
   "version": "0.0.0",
   "license": "MIT",
   "main": "output/build/main.js",
+  "author": "amcones<a587212@126.com>",
+  "description": "A timer to record your time cost on each tasks.",
   "scripts": {
     "start": "kill-port 3920 && concurrently -k \"vite\" \"wait-on tcp:3920 && npm-run-all watch\"",
     "watch": "tsc-watch --noClear -p tsconfig.e.json --onSuccess \"npm-run-all start:ect\"",
-    "start:ect": "cross-env NODE_ENV=development electron ./output/build/main.js",
+    "start:ect": "cross-env NODE_ENV=production electron ./output/build/main.js",
     "build": "npm-run-all build:vue build:tsc build:all",
     "build:vue": "vue-tsc --noEmit && vite build",
     "build:tsc": "tsc -p tsconfig.e.json",
@@ -40,5 +42,39 @@
     "vue-tsc": "^0.40.4",
     "wait-on": "^6.0.1"
   },
-  "build": {}
+  "build": {
+    "appId": "pers.amcones2022.TaskTimer",
+    "productName": "TaskTimer",
+    "copyright": "Copyright © 2022 amcones",
+    "directories": {
+      "output": "output/app"
+    },
+    "win": {
+      "icon": "",
+      "target": [
+        "nsis",
+        "zip",
+        "7z"
+      ]
+    },
+    "extraResources": [
+      "db"
+    ],
+    "files": [
+      "node_modules",
+      "db",
+      "dist/**/*",
+      "electron/**/*",
+      "output/dist/**/*",
+      "output/build/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.taskTimer",
+      "icon": ""
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
 }
